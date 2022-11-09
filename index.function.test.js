@@ -3,11 +3,6 @@ import { fileURLToPath } from 'url'
 import { dirname as dirnamePath } from 'path'
 import { dirname, filename, join, requireJson, isMain } from './index.js'
 
-tap.test('Test Setup', (t) => {
-  t.equal(true, true, 'Tests and assertions should work')
-  t.end()
-})
-
 const __dirname = dirnamePath(fileURLToPath(import.meta.url))
 const __filename = fileURLToPath(import.meta.url)
 
