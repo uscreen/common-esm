@@ -1,5 +1,8 @@
 # @uscreen.de/common-esm
 
+[![Test CI](https://github.com/uscreen/common-esm/actions/workflows/node.js.yml/badge.svg)](https://github.com/uscreen/common-esm/actions/workflows/node.js.yml)
+[![Known Vulnerabilities](https://snyk.io/test/github/uscreen/common-esm/badge.svg?targetFile=package.json)](https://snyk.io/test/github/uscreen/common-esm?targetFile=package.json)
+
 > make ESM a bit more commonJS
 
 ESM still lacks some features that are "common" in commonJS. This package aims to fill that gap. 
