@@ -17,7 +17,7 @@ npm install @uscreen.de/common-esm
 ## Usage
 
 ```js
-import { dirname, filename, join, json, isMain } from '@uscreen.de/common-esm'
+import { dirname, filename, join, requireJson, isMain } from '@uscreen.de/common-esm'
 
 // --- provided by desm ---
 

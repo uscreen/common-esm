@@ -7,10 +7,17 @@
   "repository": "git@gitlab.uscreen.net:uscreen/npm/common-esm.git",
   "author": "Marcus Spiegel <spiegel@uscreen.de>",
   "license": "MIT",
+  "scripts": {
+    "test": "c8 tap",
+    "test:cov": "c8 --reporter=html --reporter=text tap",
+    "test:ci": "c8 --reporter=text-summary tap"
+  },
   "dependencies": {
     "desm": "^1.3.0"
   },
   "devDependencies": {
-    "@uscreen.de/eslint-config-prettystandard-node": "^0.2.10"
+    "@uscreen.de/eslint-config-prettystandard-node": "^0.2.10",
+    "c8": "^7.12.0",
+    "tap": "^16.3.0"
   }
 }
