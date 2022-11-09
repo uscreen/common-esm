@@ -1,6 +1,6 @@
 {
   "name": "@uscreen.de/common-esm",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "makes ESM a bit more commonJS",
   "main": "index.js",
   "type": "module",
