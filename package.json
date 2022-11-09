@@ -1,0 +1,16 @@
+{
+  "name": "@uscreen.de/common-esm",
+  "version": "0.0.0",
+  "description": "makes ESM a bit more commonJS",
+  "main": "index.js",
+  "type": "module",
+  "repository": "git@gitlab.uscreen.net:uscreen/npm/common-esm.git",
+  "author": "Marcus Spiegel <spiegel@uscreen.de>",
+  "license": "MIT",
+  "dependencies": {
+    "desm": "^1.3.0"
+  },
+  "devDependencies": {
+    "@uscreen.de/eslint-config-prettystandard-node": "^0.2.10"
+  }
+}
