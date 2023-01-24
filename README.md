@@ -1,7 +1,9 @@
 # @uscreen.de/common-esm
 
 [![Test CI](https://github.com/uscreen/common-esm/actions/workflows/node.js.yml/badge.svg)](https://github.com/uscreen/common-esm/actions/workflows/node.js.yml)
+[![Test Coverage](https://coveralls.io/repos/github/uscreen/common-esm/badge.svg?branch=main)](https://coveralls.io/github/uscreen/common-esm?branch=main)
 [![Known Vulnerabilities](https://snyk.io/test/github/uscreen/common-esm/badge.svg?targetFile=package.json)](https://snyk.io/test/github/uscreen/common-esm?targetFile=package.json)
+[![NPM Version](https://badge.fury.io/js/@uscreen.de%2Fcommon-esm.svg)](https://badge.fury.io/js/@uscreen.de%2Fcommon-esm)
 
 > make ESM a bit more commonJS
 
