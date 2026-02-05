@@ -1,4 +1,5 @@
-import tap from 'tap'
+import { test } from 'node:test'
+import assert from 'node:assert/strict'
 import { fileURLToPath } from 'url'
 import { dirname as dirnamePath } from 'path'
 import CommonESM from './index.js'
@@ -17,54 +18,58 @@ const {
 const ___dirname = dirnamePath(fileURLToPath(import.meta.url))
 const ___filename = fileURLToPath(import.meta.url)
 
-tap.test('__dirname', (t) => {
-  t.equal(
+test('__dirname', () => {
+  assert.equal(
     __dirname,
     ___dirname,
     '__dirname should return the current directory'
   )
-  t.end()
 })
 
-tap.test('__filename', (t) => {
-  t.equal(__filename, ___filename, '__filename should return the current file')
-  t.end()
+test('__filename', () => {
+  assert.equal(
+    __filename,
+    ___filename,
+    '__filename should return the current file'
+  )
 })
 
-tap.test('__isMain', (t) => {
-  t.equal(__isMain, true, '__isMain should return true')
-  t.end()
+test('__isMain', () => {
+  assert.equal(__isMain, true, '__isMain should return true')
 })
 
-tap.test('dirname()', (t) => {
-  t.equal(dirname(), ___dirname, 'dirname should return the current directory')
-  t.end()
+test('dirname()', () => {
+  assert.equal(
+    dirname(),
+    ___dirname,
+    'dirname should return the current directory'
+  )
 })
 
-tap.test('filename()', (t) => {
-  t.equal(filename(), ___filename, 'filename should return the current file')
-  t.end()
+test('filename()', () => {
+  assert.equal(
+    filename(),
+    ___filename,
+    'filename should return the current file'
+  )
 })
 
-tap.test('isMain()', (t) => {
-  t.equal(isMain(), true, 'isMain should return true')
-  t.end()
+test('isMain()', () => {
+  assert.equal(isMain(), true, 'isMain should return true')
 })
 
-tap.test('join()', (t) => {
-  t.equal(
+test('join()', () => {
+  assert.equal(
     join('a', 'b', 'c'),
     `${___dirname}/a/b/c`,
     'join should join the given paths'
   )
-  t.end()
 })
 
-tap.test('requireJson()', (t) => {
-  t.equal(
+test('requireJson()', () => {
+  assert.equal(
     requireJson('./package.json').name,
     '@uscreen.de/common-esm',
     'requireJson should require a JSON file'
   )
-  t.end()
 })
