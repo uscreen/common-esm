@@ -1,4 +1,5 @@
-import { readFileSync } from 'fs'
+import { readFileSync } from 'node:fs'
+import process from 'node:process'
 import { dirname, filename, join } from 'desm'
 
 /**
@@ -10,7 +11,7 @@ const requireJson = (metaUrl, file) =>
 /**
  * like if (!module.parent)
  */
-const isMain = (metaUrl) => filename(metaUrl) === process.argv[1]
+const isMain = metaUrl => filename(metaUrl) === process.argv[1]
 
 /**
  * pure function
@@ -30,9 +31,9 @@ function CommonESM(metaUrl) {
     filename: () => filename(metaUrl),
     isMain: () => isMain(metaUrl),
     join: (...args) => join(metaUrl, ...args),
-    requireJson: (file) => requireJson(metaUrl, file)
+    requireJson: file => requireJson(metaUrl, file)
   }
 }
 
-export { dirname, filename, join, requireJson, isMain }
+export { dirname, filename, isMain, join, requireJson }
 export default CommonESM

@@ -7,13 +7,13 @@
 
 > make ESM a bit more commonJS
 
-ESM still lacks some features that are "common" in commonJS. This package aims to fill that gap. 
+ESM still lacks some features that are "common" in commonJS. This package aims to fill that gap.
 
 ## Prior art
 
-* The [desm](https://www.npmjs.com/package/desm) package already provides us with `dirname`, `filename`, `join`. Straight simple and robust. This package aims to decorate it with some more commonJS features.
+- The [desm](https://www.npmjs.com/package/desm) package already provides us with `dirname`, `filename`, `join`. Straight simple and robust. This package aims to decorate it with some more commonJS features.
 
-* And there is [esm-utils](https://www.npmjs.com/package/esm-utils) which provides a bigger api surface. But I found its codebase a bit too complex and it does not provide a solution for `if (require.main === module)`, either.
+- And there is [esm-utils](https://www.npmjs.com/package/esm-utils) which provides a bigger api surface. But I found its codebase a bit too complex and it does not provide a solution for `if (require.main === module)`, either.
 
 ## Install
 
@@ -49,7 +49,7 @@ Inherited from [desm](https://www.npmjs.com/package/desm) there are the followin
 
 ```js
 // file:/app/demo/index.js
-import { dirname, filename, join, requireJson, isMain } from '@uscreen.de/common-esm'
+import { dirname, filename, isMain, join, requireJson } from '@uscreen.de/common-esm'
 
 /**
  * --- as provided by desm ---
@@ -64,8 +64,8 @@ console.log(join(import.meta.url, '..', 'other')) // /app/other
  */
 console.log(requireJson(import.meta.url, './package.json')) // { name: '@uscreen.de/common-esm', ... }
 console.log(isMain(import.meta.url)) // true with node ./index.js like require.main === module
-
 ```
+
 ---
 
 ## License

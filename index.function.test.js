@@ -1,8 +1,8 @@
-import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { fileURLToPath } from 'url'
-import { dirname as dirnamePath } from 'path'
-import { dirname, filename, join, requireJson, isMain } from './index.js'
+import { dirname as dirnamePath } from 'node:path'
+import { test } from 'node:test'
+import { fileURLToPath } from 'node:url'
+import { dirname, filename, isMain, join, requireJson } from './index.js'
 
 const __dirname = dirnamePath(fileURLToPath(import.meta.url))
 const __filename = fileURLToPath(import.meta.url)

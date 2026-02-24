@@ -1,7 +1,7 @@
-import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { fileURLToPath } from 'url'
-import { dirname as dirnamePath } from 'path'
+import { dirname as dirnamePath } from 'node:path'
+import { test } from 'node:test'
+import { fileURLToPath } from 'node:url'
 import CommonESM from './index.js'
 
 const {
