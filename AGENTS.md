@@ -152,7 +152,6 @@ assert.equal(actual, expected, 'descriptive message')
 ├── index.function.test.js        # Tests for functional API
 ├── package.json                  # Package configuration
 ├── .eslintrc                     # ESLint configuration
-├── .taprc                        # Test runner configuration
 └── README.md                     # User documentation
 ```
 

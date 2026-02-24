@@ -1,6 +1,0 @@
-{
-  "timeout": 10,
-  "reporter": "spec",
-  
-  "test-regex": "\\w+\\.test\\.js$"
-}
