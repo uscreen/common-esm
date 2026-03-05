@@ -30,10 +30,7 @@
   "main": "index.js",
   "types": "index.d.ts",
   "files": [
-    "LICENSE",
-    "README.md",
-    "index.d.ts",
-    "index.js"
+    "index.d.ts"
   ],
   "scripts": {
     "test": "c8 node --test",
