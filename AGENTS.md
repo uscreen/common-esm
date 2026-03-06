@@ -1,225 +1,158 @@
 # Agent Guidelines for @uscreen.de/common-esm
 
-This document provides guidelines for AI coding agents working on this repository.
+Utility library bridging ESM and CommonJS patterns, providing `__dirname`,
+`__filename`, and `require.main === module` equivalents in ESM modules.
 
-## Project Overview
-
-**@uscreen.de/common-esm** is a utility library that bridges ESM and CommonJS patterns, providing familiar CommonJS features like `__dirname`, `__filename`, and `require.main === module` equivalents in ESM modules.
-
-- **Language**: JavaScript (ESM modules, Node.js)
+- **Language**: JavaScript (ESM, Node.js)
 - **Package Manager**: pnpm (v10.28.2+)
 - **Test Framework**: Node.js built-in test runner with c8 for coverage
 - **Supported Node versions**: 20, 22, 24
 
 ## Build, Lint & Test Commands
 
-### Installation
 ```bash
-pnpm install
-```
-
-### Testing
-```bash
-# Run all tests with coverage
-pnpm test
-
-# Run tests with HTML coverage report
-pnpm test:cov
-
-# Run tests with LCOV output (used in CI)
-pnpm test:ci
+pnpm install              # Install dependencies
+pnpm test                 # Run all tests with coverage
+pnpm lint                 # Check for lint errors
+pnpm lint:fix             # Auto-fix lint errors
 
 # Run a single test file
 node --test index.constructor.test.js
 node --test index.function.test.js
 
-# Run tests matching a pattern
+# Run tests matching a name pattern
 node --test --test-name-pattern="dirname"
+
+# CI variants
+pnpm test:cov             # HTML + text coverage report
+pnpm test:ci              # LCOV output for CI
 ```
 
-### Linting
-```bash
-# Check for linting errors
-npx eslint .
+## Project Structure
 
-# Auto-fix linting errors
-npx eslint . --fix
 ```
-
-### Coverage
-- Coverage reports are in `coverage/` directory (gitignored)
-- Minimum coverage thresholds are enforced in CI via c8
-- Coverage badges are updated via Coveralls integration
+index.js                      # Main entry point (~39 lines, all logic here)
+index.d.ts                    # TypeScript declarations
+index.constructor.test.js     # Tests for CommonESM constructor pattern
+index.function.test.js        # Tests for functional API
+eslint.config.js              # ESLint flat config (@antfu/eslint-config)
+manifest.json                 # Version manifest
+```
 
 ## Code Style Guidelines
 
 ### Module System
-- **ALWAYS use ESM syntax** - this is a pure ESM package (`"type": "module"` in package.json)
-- Use `.js` extension for all JavaScript files
+- **ALWAYS use ESM syntax** (`"type": "module"` in package.json)
+- Use `.js` extension in all local imports
 - Never use CommonJS (`require`, `module.exports`)
 
 ### Import Style
 ```javascript
-// ✅ Correct - named imports from node: protocol
-import { readFileSync } from 'fs'
+// Node builtins: use node: protocol
+import { readFileSync } from 'node:fs'
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 
-// ✅ Correct - external package imports
+// External packages
 import { dirname, filename, join } from 'desm'
 
-// ✅ Correct - local imports with .js extension
+// Local imports: always include .js extension
 import CommonESM from './index.js'
-
-// ❌ Wrong - missing .js extension
-import CommonESM from './index'
-
-// ❌ Wrong - CommonJS syntax
-const CommonESM = require('./index')
 ```
 
-### Formatting
+### Formatting (enforced by @antfu/eslint-config)
 - **Indentation**: 2 spaces (no tabs)
-- **Quotes**: Single quotes for strings
-- **Semicolons**: Optional but not consistently used - follow existing patterns in the file
-- **Line length**: Keep reasonable, no strict limit
-- **Trailing commas**: Not required but acceptable in multiline
+- **Quotes**: Single quotes
+- **Semicolons**: None (antfu default)
+- **Trailing commas**: Never (`comma-dangle: ['error', 'never']`)
+- **Curly braces**: Required for multi-line, consistent (`curly: multi-line, consistent`)
+- **Top-level functions**: Arrow functions allowed (`antfu/top-level-function: off`)
 
 ### Naming Conventions
-- **Functions**: camelCase - `requireJson`, `isMain`
+- **Functions**: camelCase (`requireJson`, `isMain`)
 - **Constants**: camelCase for function references
-- **Private/internal**: No special prefix (JavaScript module scoping is sufficient)
-- **Test descriptions**: Plain English strings in `test('description', ...)`
+- **Private/internal**: No prefix needed (module scoping is sufficient)
+- **Test names**: Plain English strings (`test('__dirname', ...)`)
 
 ### Function Style
 ```javascript
-// ✅ Preferred - concise arrow functions for pure utilities
+// Preferred: concise arrow functions for pure utilities
 const requireJson = (metaUrl, file) =>
   JSON.parse(readFileSync(join(metaUrl, file)))
 
-// ✅ Acceptable - function declarations for constructors
+// Function declarations for constructors
 function CommonESM(metaUrl) {
-  // ...
-  return { /* ... */ }
-}
-
-// ✅ Correct - arrow functions in returns
-return {
-  join: (...args) => join(metaUrl, ...args),
-  requireJson: (file) => requireJson(metaUrl, file)
+  return { __dirname: dirname(metaUrl), /* ... */ }
 }
 ```
 
 ### Error Handling
 - **Let errors bubble up** - this is a low-level utility library
 - No try-catch in production code unless specifically needed
-- Let Node.js native errors (file not found, JSON parse errors) propagate
-- Trust the consumer to handle errors appropriately
+- Let Node.js native errors propagate to the consumer
 
 ### Type Safety
-- **No TypeScript** - pure JavaScript project
-- Use JSDoc comments sparingly, only when they add value
-- Rely on descriptive parameter names for clarity
-- Keep functions small and single-purpose
+- **No TypeScript** in source - pure JavaScript
+- TypeScript declarations are maintained in `index.d.ts`
+- Use JSDoc comments sparingly, only when they add real value
 
 ### Testing Conventions
 ```javascript
-// ✅ Use Node.js test runner
-import { test } from 'node:test'
 import assert from 'node:assert/strict'
+import { test } from 'node:test'
 
-// ✅ Descriptive test names
 test('__dirname', () => {
-  assert.equal(
-    __dirname,
-    expectedValue,
-    '__dirname should return the current directory'
-  )
+  assert.equal(actual, expected, 'descriptive failure message')
 })
-
-// ✅ Use assert.equal for comparisons
-assert.equal(actual, expected, 'descriptive message')
-
-// ❌ Don't use console.log in tests
 ```
-
-## Project Structure
-
-```
-.
-├── index.js                      # Main entry point - all logic here
-├── index.constructor.test.js     # Tests for CommonESM constructor pattern
-├── index.function.test.js        # Tests for functional API
-├── package.json                  # Package configuration
-├── .eslintrc                     # ESLint configuration
-└── README.md                     # User documentation
-```
+- Use `assert.equal` for comparisons
+- Always include a descriptive third argument (failure message)
+- No `console.log` in tests
 
 ## Key Implementation Patterns
 
-### Pure Functions
-All utilities should be pure functions - given the same input (`import.meta.url`), always return the same output:
-
-```javascript
-const isMain = (metaUrl) => filename(metaUrl) === process.argv[1]
-```
-
-### Constructor Pattern
-The default export returns an object with bound methods:
-
-```javascript
-function CommonESM(metaUrl) {
-  return {
-    __dirname: dirname(metaUrl),
-    join: (...args) => join(metaUrl, ...args)
-  }
-}
-```
-
 ### Dual API
-Maintain both constructor and functional exports:
-- Constructor: `new CommonESM(import.meta.url)` or `CommonESM(import.meta.url)`
-- Functions: `dirname(import.meta.url)`
+Every feature must support both patterns:
+- **Constructor**: `const { __dirname } = CommonESM(import.meta.url)`
+- **Functional**: `dirname(import.meta.url)`
 
-## Continuous Integration
-
-- **GitHub Actions** runs on pushes and PRs to `main`
-- Tests run on Node 20, 22, and 24
-- Coverage is uploaded to Coveralls
-- Dependabot auto-merge is configured for passing dependency updates
-
-## Git Workflow
-
-- **Main branch**: `main`
-- Commit messages: Clear, concise, imperative mood
-- No required commit message format
-- Keep commits atomic and focused
+### Pure Functions
+All utilities are pure - given the same `import.meta.url`, always return the same output.
 
 ## Dependencies
 
 ### Production
-- `desm` - Core functionality for dirname, filename, join
+- `desm` - Core dirname/filename/join functionality
 
 ### Development
-- `@uscreen.de/eslint-config-prettystandard-node` - ESLint configuration
+- `@antfu/eslint-config` - ESLint configuration (flat config)
+- `eslint-plugin-format` - Formatter integration
 - `c8` - Coverage reporting
 
-**⚠️ Keep dependencies minimal** - this is a foundational utility package.
+**Keep dependencies minimal** - this is a foundational utility package.
+
+## CI
+
+- GitHub Actions on pushes and PRs to `main`
+- Tests run on Node 20, 22, 24
+- Coverage uploaded to Coveralls
+- Dependabot auto-merge for passing dependency updates
 
 ## Making Changes
 
-1. **Read existing code first** - the entire codebase is ~40 lines
+1. Read existing code first - the entire codebase is ~39 lines
 2. **Maintain backward compatibility** - this is a published npm package
-3. **Add tests for new features** - both constructor and functional patterns
-4. **Update README.md** if API changes
-5. **Follow existing patterns** - consistency is critical for small libraries
-6. **Run tests before committing**: `pnpm test`
+3. Add tests for new features - both constructor and functional patterns
+4. Update `index.d.ts` if API changes
+5. Update `README.md` if API changes
+6. Follow existing patterns - consistency is critical
+7. Run `pnpm test` before committing
+8. Run `pnpm lint` to check style compliance
 
 ## Notes for Agents
 
-- This is a **utility library**, not an application - prioritize simplicity and reliability
-- **Every line matters** - keep the codebase lean and focused
+- This is a **utility library**, not an application - prioritize simplicity
 - **Dual API support** is critical - any new feature needs both patterns
 - **Don't add dependencies** without strong justification
-- **Performance is secondary** to correctness and clarity
 - Test files may be longer than implementation - this is expected and good
+- The entire codebase is intentionally tiny; every line matters
