@@ -9,4 +9,10 @@ updates:
     directory: /
     schedule:
       interval: weekly
-    target-branch: main
+    ignore:
+      - dependency-name: '@antfu/eslint-config'
+        update-types: ['version-update:semver-major']
+      - dependency-name: eslint
+        update-types: ['version-update:semver-major']
+      - dependency-name: eslint-plugin-format
+        update-types: ['version-update:semver-major']
