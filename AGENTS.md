@@ -6,7 +6,7 @@ Utility library bridging ESM and CommonJS patterns, providing `__dirname`,
 - **Language**: JavaScript (ESM, Node.js)
 - **Package Manager**: pnpm (v10.28.2+)
 - **Test Framework**: Node.js built-in test runner with c8 for coverage
-- **Supported Node versions**: 20, 22, 24
+- **Supported Node versions**: 22, 24, 26
 
 ## Build, Lint & Test Commands
 
@@ -134,7 +134,7 @@ All utilities are pure - given the same `import.meta.url`, always return the sam
 ## CI
 
 - GitHub Actions on pushes and PRs to `main`
-- Tests run on Node 20, 22, 24
+- Tests run on Node 22, 24, 26
 - Coverage uploaded to Coveralls
 - Dependabot auto-merge for passing dependency updates
 
